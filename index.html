@@ -1,0 +1,48 @@
+<div class="content"></div>
+<script type="text/javascript">
+    function PrefixZero(num, n) {
+        n = Math.max(num.toString().length, n)
+        return (Array(n).join(0) + num).slice(-n);
+    }
+    var lastTime = 0;
+    setInterval(function () {
+        var current = new Date();
+        if (lastTime != current.getSeconds())
+            lastTime = current.getSeconds();
+        else
+            return;
+        var html = document.querySelector('.content');
+        var dateArray = new Array();
+        var timeString = PrefixZero(current.getHours(), 2) + "时" + PrefixZero(current.getMinutes(), 2) + "分" + PrefixZero(current.getSeconds(), 2) + "秒";
+        //北欧历
+        {
+            var target = new Date(2019, 8, 1);
+            var day = parseInt((current - target) / (24 * 3600 * 1000)) + 31 + 1;
+            dateArray.push("北欧历:\n2019年08月" + PrefixZero(day, 2) + "日 " + timeString);
+        }
+        //新北欧历
+        {
+            var target = new Date(2020, 6, 1);
+            var day = parseInt((current - target) / (24 * 3600 * 1000)) + 30 + 1;
+            dateArray.push("新北欧历:\n2020年06月" + PrefixZero(day, 2) + "日 " + timeString);
+        }
+        //新新北欧历
+        {
+            var target = new Date(2021, 7, 1);
+            var day = parseInt((current - target) / (24 * 3600 * 1000)) + 31 + 1;
+            dateArray.push("新新北欧历:\n2021年07月" + PrefixZero(day, 2) + "日 " + timeString);
+        }
+        //新新新北欧历
+        {
+            var target = new Date(2021, 6, 25);
+            var day = parseInt((current - target) / (24 * 3600 * 1000)) + 30;
+            if (day > 0)
+                dateArray.push("新新新北欧历:\nxxxx年xx月xx-" + PrefixZero(day, 2) + "日 " + timeString);
+            else if (day < 0)
+                dateArray.push("新新新北欧历:\nxxxx年xx月xx+" + PrefixZero(day + 1, 2) + "日 " + timeString);
+            else
+                dateArray.push("新新新北欧历:\nxxxx年xx月xx日 " + timeString);
+        }
+        html.innerHTML = (dateArray.join("\n").replace(/\n/g, "<br/>"));
+    }, 100);
+</script>
